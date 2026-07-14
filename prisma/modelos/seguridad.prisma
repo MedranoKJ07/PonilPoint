@@ -1,0 +1,130 @@
+// ============================================================
+// PINOLPOINT - SEGURIDAD EMPRESARIAL
+// Membresías, roles, permisos y acceso por sucursal.
+// ============================================================
+
+enum EstadoMembresia {
+  PENDIENTE
+  ACTIVA
+  SUSPENDIDA
+  REVOCADA
+}
+
+model MiembroEmpresa {
+  id        String @id @default(uuid()) @db.Uuid
+  usuarioId String @map("usuario_id")
+  empresaId String @map("empresa_id") @db.Uuid
+
+  estado                EstadoMembresia @default(ACTIVA)
+  esPropietario         Boolean         @default(false) @map("es_propietario")
+  accesoTodasSucursales Boolean         @default(false) @map("acceso_todas_sucursales")
+
+  creadoEn      DateTime  @default(now()) @map("creado_en") @db.Timestamptz(3)
+  actualizadoEn DateTime  @updatedAt @map("actualizado_en") @db.Timestamptz(3)
+  eliminadoEn   DateTime? @map("eliminado_en") @db.Timestamptz(3)
+
+  usuario User    @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  roles           MiembroRol[]
+  accesosSucursal AccesoSucursal[]
+
+  @@unique([usuarioId, empresaId], map: "miembros_empresa_usuario_empresa_uq")
+  @@unique([id, empresaId], map: "miembros_empresa_id_empresa_uq")
+  @@index([empresaId, estado], map: "miembros_empresa_empresa_estado_idx")
+  @@index([usuarioId, estado], map: "miembros_empresa_usuario_estado_idx")
+  @@map("miembros_empresa")
+}
+
+model Rol {
+  id        String @id @default(uuid()) @db.Uuid
+  empresaId String @map("empresa_id") @db.Uuid
+
+  codigo      String  @db.VarChar(60)
+  nombre      String  @db.VarChar(120)
+  descripcion String? @db.VarChar(500)
+
+  esSistema Boolean        @default(false) @map("es_sistema")
+  estado    EstadoRegistro @default(ACTIVO)
+
+  creadoEn      DateTime  @default(now()) @map("creado_en") @db.Timestamptz(3)
+  actualizadoEn DateTime  @updatedAt @map("actualizado_en") @db.Timestamptz(3)
+  eliminadoEn   DateTime? @map("eliminado_en") @db.Timestamptz(3)
+
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  permisos RolPermiso[]
+  miembros MiembroRol[]
+
+  @@unique([empresaId, codigo], map: "roles_empresa_codigo_uq")
+  @@unique([id, empresaId], map: "roles_id_empresa_uq")
+  @@index([empresaId, estado], map: "roles_empresa_estado_idx")
+  @@map("roles")
+}
+
+model Permiso {
+  id String @id @default(uuid()) @db.Uuid
+
+  codigo  String @unique(map: "permisos_codigo_uq") @db.VarChar(150)
+  modulo  String @db.VarChar(80)
+  recurso String @db.VarChar(80)
+  accion  String @db.VarChar(50)
+
+  nombre      String         @db.VarChar(150)
+  descripcion String?        @db.VarChar(500)
+  estado      EstadoRegistro @default(ACTIVO)
+
+  creadoEn      DateTime @default(now()) @map("creado_en") @db.Timestamptz(3)
+  actualizadoEn DateTime @updatedAt @map("actualizado_en") @db.Timestamptz(3)
+
+  roles RolPermiso[]
+
+  @@unique([modulo, recurso, accion], map: "permisos_modulo_recurso_accion_uq")
+  @@index([modulo, estado], map: "permisos_modulo_estado_idx")
+  @@map("permisos")
+}
+
+model RolPermiso {
+  rolId     String @map("rol_id") @db.Uuid
+  permisoId String @map("permiso_id") @db.Uuid
+
+  creadoEn DateTime @default(now()) @map("creado_en") @db.Timestamptz(3)
+
+  rol     Rol     @relation(fields: [rolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permiso Permiso @relation(fields: [permisoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([rolId, permisoId])
+  @@index([permisoId], map: "roles_permisos_permiso_idx")
+  @@map("roles_permisos")
+}
+
+model MiembroRol {
+  miembroEmpresaId String @map("miembro_empresa_id") @db.Uuid
+  rolId            String @map("rol_id") @db.Uuid
+  empresaId        String @map("empresa_id") @db.Uuid
+
+  asignadoEn DateTime @default(now()) @map("asignado_en") @db.Timestamptz(3)
+
+  miembroEmpresa MiembroEmpresa @relation(fields: [miembroEmpresaId, empresaId], references: [id, empresaId], onDelete: Cascade, onUpdate: Cascade)
+  rol            Rol            @relation(fields: [rolId, empresaId], references: [id, empresaId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([miembroEmpresaId, rolId])
+  @@index([empresaId], map: "miembros_roles_empresa_idx")
+  @@index([rolId], map: "miembros_roles_rol_idx")
+  @@map("miembros_roles")
+}
+
+model AccesoSucursal {
+  miembroEmpresaId String @map("miembro_empresa_id") @db.Uuid
+  sucursalId       String @map("sucursal_id") @db.Uuid
+  empresaId        String @map("empresa_id") @db.Uuid
+
+  creadoEn DateTime @default(now()) @map("creado_en") @db.Timestamptz(3)
+
+  miembroEmpresa MiembroEmpresa @relation(fields: [miembroEmpresaId, empresaId], references: [id, empresaId], onDelete: Cascade, onUpdate: Cascade)
+  sucursal       Sucursal       @relation(fields: [sucursalId, empresaId], references: [id, empresaId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([miembroEmpresaId, sucursalId])
+  @@index([empresaId, sucursalId], map: "accesos_sucursal_empresa_sucursal_idx")
+  @@map("accesos_sucursal")
+}

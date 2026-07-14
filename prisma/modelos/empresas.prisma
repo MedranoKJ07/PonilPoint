@@ -1,0 +1,166 @@
+// ============================================================
+// PINOLPOINT - ESTRUCTURA EMPRESARIAL
+// Empresas, configuraciones, sucursales y bodegas.
+// ============================================================
+
+enum EstadoRegistro {
+  ACTIVO
+  INACTIVO
+}
+
+enum PerfilNegocio {
+  COMERCIO
+  SERVICIOS
+  RESTAURANTE
+  DISTRIBUCION
+  MANUFACTURA
+  MIXTO
+  OTRO
+}
+
+enum TipoSucursal {
+  CASA_MATRIZ
+  SUCURSAL
+  PUNTO_VENTA
+  OFICINA
+  OTRO
+}
+
+enum TipoBodega {
+  PRINCIPAL
+  VENTA
+  ALMACEN
+  TRANSITO
+  DEVOLUCIONES
+  PRODUCCION
+  CUARENTENA
+  OTRO
+}
+
+enum FormatoHora {
+  HORAS_12
+  HORAS_24
+}
+
+model Empresa {
+  id                   String        @id @default(uuid()) @db.Uuid
+  slug                 String        @unique(map: "empresas_slug_uq") @db.VarChar(100)
+  nombreLegal          String        @map("nombre_legal") @db.VarChar(180)
+  nombreComercial      String?       @map("nombre_comercial") @db.VarChar(180)
+  identificacionFiscal String?       @map("identificacion_fiscal") @db.VarChar(50)
+  perfilNegocio        PerfilNegocio @default(COMERCIO) @map("perfil_negocio")
+
+  paisCodigo   String @default("NI") @map("pais_codigo") @db.Char(2)
+  monedaCodigo String @default("NIO") @map("moneda_codigo") @db.Char(3)
+  idiomaCodigo String @default("es") @map("idioma_codigo") @db.VarChar(10)
+  zonaHoraria  String @default("America/Managua") @map("zona_horaria") @db.VarChar(100)
+
+  telefono String? @db.VarChar(30)
+  correo   String? @db.VarChar(254)
+  sitioWeb String? @map("sitio_web") @db.VarChar(500)
+  logoUrl  String? @map("logo_url") @db.VarChar(500)
+
+  estado EstadoRegistro @default(ACTIVO)
+
+  creadoEn      DateTime  @default(now()) @map("creado_en") @db.Timestamptz(3)
+  actualizadoEn DateTime  @updatedAt @map("actualizado_en") @db.Timestamptz(3)
+  eliminadoEn   DateTime? @map("eliminado_en") @db.Timestamptz(3)
+
+  configuracion ConfiguracionEmpresa?
+  sucursales    Sucursal[]
+  miembros      MiembroEmpresa[]
+  roles         Rol[]
+
+  @@index([estado], map: "empresas_estado_idx")
+  @@index([paisCodigo, identificacionFiscal], map: "empresas_identificacion_fiscal_idx")
+  @@map("empresas")
+}
+
+model ConfiguracionEmpresa {
+  id        String @id @default(uuid()) @db.Uuid
+  empresaId String @unique(map: "configuraciones_empresa_empresa_id_uq") @map("empresa_id") @db.Uuid
+
+  formatoFecha      String      @default("dd/MM/yyyy") @map("formato_fecha") @db.VarChar(30)
+  formatoHora       FormatoHora @default(HORAS_24) @map("formato_hora")
+  primerDiaSemana   Int         @default(1) @map("primer_dia_semana")
+  decimalesCantidad Int         @default(3) @map("decimales_cantidad")
+  decimalesPrecio   Int         @default(2) @map("decimales_precio")
+  usaSeparadorMiles Boolean     @default(true) @map("usa_separador_miles")
+
+  configuracionAdicional Json? @map("configuracion_adicional") @db.JsonB
+
+  creadoEn      DateTime @default(now()) @map("creado_en") @db.Timestamptz(3)
+  actualizadoEn DateTime @updatedAt @map("actualizado_en") @db.Timestamptz(3)
+
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("configuraciones_empresa")
+}
+
+model Sucursal {
+  id        String @id @default(uuid()) @db.Uuid
+  empresaId String @map("empresa_id") @db.Uuid
+
+  codigo      String       @db.VarChar(30)
+  nombre      String       @db.VarChar(150)
+  tipo        TipoSucursal @default(SUCURSAL)
+  esPrincipal Boolean      @default(false) @map("es_principal")
+
+  paisCodigo   String  @default("NI") @map("pais_codigo") @db.Char(2)
+  region       String? @db.VarChar(120)
+  ciudad       String? @db.VarChar(120)
+  direccion    String? @db.VarChar(500)
+  codigoPostal String? @map("codigo_postal") @db.VarChar(20)
+
+  telefono    String? @db.VarChar(30)
+  correo      String? @db.VarChar(254)
+  zonaHoraria String? @map("zona_horaria") @db.VarChar(100)
+
+  estado EstadoRegistro @default(ACTIVO)
+
+  creadoEn      DateTime  @default(now()) @map("creado_en") @db.Timestamptz(3)
+  actualizadoEn DateTime  @updatedAt @map("actualizado_en") @db.Timestamptz(3)
+  eliminadoEn   DateTime? @map("eliminado_en") @db.Timestamptz(3)
+
+  empresa Empresa @relation(fields: [empresaId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  bodegas         Bodega[]
+  accesoSucursals AccesoSucursal[]
+
+  @@unique([empresaId, codigo], map: "sucursales_empresa_codigo_uq")
+  @@unique([id, empresaId], map: "sucursales_id_empresa_uq")
+  @@index([empresaId, estado], map: "sucursales_empresa_estado_idx")
+  @@index([empresaId, esPrincipal], map: "sucursales_empresa_principal_idx")
+  @@map("sucursales")
+}
+
+model Bodega {
+  id         String @id @default(uuid()) @db.Uuid
+  empresaId  String @map("empresa_id") @db.Uuid
+  sucursalId String @map("sucursal_id") @db.Uuid
+
+  codigo           String     @db.VarChar(30)
+  nombre           String     @db.VarChar(150)
+  tipo             TipoBodega @default(ALMACEN)
+  ubicacionInterna String?    @map("ubicacion_interna") @db.VarChar(250)
+
+  esPrincipal        Boolean @default(false) @map("es_principal")
+  controlaExistencia Boolean @default(true) @map("controla_existencia")
+  permiteEntradas    Boolean @default(true) @map("permite_entradas")
+  permiteSalidas     Boolean @default(true) @map("permite_salidas")
+  permiteVentas      Boolean @default(false) @map("permite_ventas")
+
+  estado EstadoRegistro @default(ACTIVO)
+
+  creadoEn      DateTime  @default(now()) @map("creado_en") @db.Timestamptz(3)
+  actualizadoEn DateTime  @updatedAt @map("actualizado_en") @db.Timestamptz(3)
+  eliminadoEn   DateTime? @map("eliminado_en") @db.Timestamptz(3)
+
+  sucursal Sucursal @relation(fields: [sucursalId, empresaId], references: [id, empresaId], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([empresaId, sucursalId, codigo], map: "bodegas_empresa_sucursal_codigo_uq")
+  @@unique([id, empresaId], map: "bodegas_id_empresa_uq")
+  @@index([empresaId, estado], map: "bodegas_empresa_estado_idx")
+  @@index([sucursalId, estado], map: "bodegas_sucursal_estado_idx")
+  @@map("bodegas")
+}
