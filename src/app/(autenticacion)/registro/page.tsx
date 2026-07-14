@@ -124,11 +124,11 @@ export default function PaginaRegistro() {
             name="nombre"
             type="text"
             autoComplete="name"
-            placeholder="Ejemplo: Celeste Ruiz"
+            placeholder="Juan Pérez"
             value={nombre}
             onChange={(evento) => setNombre(evento.target.value)}
             disabled={procesando}
-            className="h-11"
+            className="h-11 bg-input/88 backdrop-blur-sm"
           />
         </div>
 
@@ -144,7 +144,7 @@ export default function PaginaRegistro() {
             value={correo}
             onChange={(evento) => setCorreo(evento.target.value)}
             disabled={procesando}
-            className="h-11"
+            className="h-11 bg-input/88 backdrop-blur-sm"
           />
         </div>
 
@@ -162,7 +162,7 @@ export default function PaginaRegistro() {
               setContrasena(evento.target.value)
             }
             disabled={procesando}
-            className="h-11"
+            className="h-11 bg-input/88 backdrop-blur-sm"
           />
         </div>
 
@@ -182,7 +182,7 @@ export default function PaginaRegistro() {
               setConfirmarContrasena(evento.target.value)
             }
             disabled={procesando}
-            className="h-11"
+            className="h-11 bg-input/88 backdrop-blur-sm"
           />
         </div>
 
@@ -201,7 +201,7 @@ export default function PaginaRegistro() {
           disabled={procesando}
           hoverScale={1.015}
           tapScale={0.98}
-          className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 font-semibold text-primary-foreground disabled:pointer-events-none disabled:opacity-60"
+          className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 font-semibold text-primary-foreground shadow-[0_12px_30px_rgba(37,99,235,0.24)] transition-[background-color,box-shadow] duration-300 hover:bg-primary-hover hover:shadow-[0_16px_38px_rgba(37,99,235,0.30)] disabled:pointer-events-none disabled:opacity-60 dark:shadow-[0_12px_30px_rgba(96,165,250,0.16)]"
         >
           {procesando ? (
             <>
@@ -221,7 +221,7 @@ export default function PaginaRegistro() {
         ¿Ya tienes una cuenta?{" "}
         <Link
           href="/iniciar-sesion"
-          className="font-semibold text-primary hover:underline"
+          className="font-semibold text-primary transition-colors hover:text-primary-hover hover:underline"
         >
           Iniciar sesión
         </Link>

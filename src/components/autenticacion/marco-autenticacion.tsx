@@ -1,5 +1,4 @@
 "use client";
-import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import type { ReactNode } from "react";
 import {
   BarChart3,
@@ -18,7 +17,7 @@ import {
 
 import { AlternadorTema } from "@/components/tema/alternador-tema";
 import { FondoBurbujasTema } from "@/components/tema/fondo-burbujas-tema";
-
+import { MarcaPinolPoint } from "@/components/marca/marca-pinolpoint";
 interface MarcoAutenticacionProps {
   titulo: string;
   descripcion: string;
@@ -80,9 +79,8 @@ export function MarcoAutenticacion({
     <main
       className="
         relative isolate min-h-screen overflow-hidden
-        bg-[#F7F9FC] text-[#0E1B3D]
-        transition-colors duration-700
-        dark:bg-[#09132D] dark:text-white
+        bg-background text-foreground
+        transition-colors duration-500
       "
     >
       <FondoBurbujasTema />
@@ -92,10 +90,9 @@ export function MarcoAutenticacion({
         <section
           className="
             relative hidden overflow-hidden
-            border-r border-[#0E1B3D]/10
+            border-r border-border
             px-12 py-14
-            transition-[border-color] duration-700
-            dark:border-white/10
+            transition-[border-color] duration-500
             lg:flex lg:flex-col lg:justify-between
             xl:px-16 xl:py-16
           "
@@ -105,9 +102,9 @@ export function MarcoAutenticacion({
             aria-hidden="true"
             className="
               absolute inset-0
-              bg-white/48
+              bg-card/48
               backdrop-blur-[34px]
-              transition-[background-color,opacity] duration-700
+              transition-[background-color,opacity] duration-500
               dark:bg-transparent
               dark:opacity-0
             "
@@ -118,10 +115,10 @@ export function MarcoAutenticacion({
             aria-hidden="true"
             className="
               absolute inset-0
-              bg-[#0E1B3D]/66
+              bg-sidebar/72
               opacity-0
               backdrop-blur-[34px]
-              transition-[background-color,opacity] duration-700
+              transition-[background-color,opacity] duration-500
               dark:opacity-100
             "
           />
@@ -146,8 +143,8 @@ export function MarcoAutenticacion({
             className="
               pointer-events-none absolute -left-32 -top-32
               size-[28rem] rounded-full
-              bg-[#1677FF]/12 blur-[120px]
-              dark:bg-[#1677FF]/20
+              bg-brand-primary/12 blur-[120px]
+              dark:bg-primary/18
             "
           />
 
@@ -158,98 +155,11 @@ export function MarcoAutenticacion({
             animate="visible"
             className="relative z-10"
           >
-            <motion.div
-              variants={elementoEntrada}
-              className="inline-flex items-center gap-3"
-            >
-              <motion.div
-                animate={
-                  reducirMovimiento
-                    ? undefined
-                    : {
-                        y: [0, -5, 0],
-                        rotate: [0, -1.5, 0],
-                      }
-                }
-                transition={{
-                  duration: 4.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="
-                  relative flex size-12 items-center justify-center
-                  rounded-2xl
-                  border border-[#1677FF]/20
-                  bg-white/70
-                  text-[#1677FF]
-                  shadow-[0_12px_40px_rgba(22,119,255,0.16)]
-                  backdrop-blur-xl
-                  transition-[background-color,border-color,color,box-shadow]
-                  duration-700
-                  dark:border-[#73B9FF]/20
-                  dark:bg-white/10
-                  dark:text-[#73B9FF]
-                  dark:shadow-[0_14px_42px_rgba(22,119,255,0.24)]
-                "
-              >
-                <Store className="size-6" />
-
-                <motion.span
-                  aria-hidden="true"
-                  animate={
-                    reducirMovimiento
-                      ? undefined
-                      : {
-                          opacity: [0.25, 0.85, 0.25],
-                          scale: [0.8, 1.2, 0.8],
-                        }
-                  }
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="
-                    absolute -right-1 -top-1 size-3
-                    rounded-full bg-[#73B9FF]
-                    shadow-[0_0_16px_rgba(115,185,255,0.9)]
-                  "
-                />
-              </motion.div>
-
-              <div>
-                <p className="text-xl font-bold tracking-tight">
-                  <span
-                    className="
-                      text-[#0E1B3D]
-                      transition-colors duration-700
-                      dark:text-white
-                    "
-                  >
-                    Pinol
-                  </span>
-
-                  <span
-                    className="
-                      text-[#1677FF]
-                      transition-colors duration-700
-                      dark:text-[#73B9FF]
-                    "
-                  >
-                    Point
-                  </span>
-                </p>
-
-                <p
-                  className="
-                    text-sm text-[#4B5563]
-                    transition-colors duration-700
-                    dark:text-[#B9CBE5]
-                  "
-                >
-                  Tu punto de venta inteligente
-                </p>
-              </div>
+            <motion.div variants={elementoEntrada}>
+              <MarcaPinolPoint
+                modo="panel"
+                prioridad
+              />
             </motion.div>
 
             <motion.div
@@ -259,16 +169,14 @@ export function MarcoAutenticacion({
               <span
                 className="
                   inline-flex items-center gap-2 rounded-full
-                  border border-[#1677FF]/20
-                  bg-white/55 px-3 py-1.5
+                  border border-primary/25
+                  bg-card/60 px-3 py-1.5
                   text-xs font-semibold tracking-wide
-                  text-[#0F5EDB]
+                  text-primary
                   shadow-sm backdrop-blur-xl
                   transition-[background-color,border-color,color]
-                  duration-700
-                  dark:border-[#73B9FF]/25
-                  dark:bg-[#1677FF]/15
-                  dark:text-[#A9D5FF]
+                  duration-500
+                  dark:bg-primary/12
                 "
               >
                 <Sparkles className="size-3.5" />
@@ -278,9 +186,8 @@ export function MarcoAutenticacion({
               <h2
                 className="
                   mt-6 text-4xl font-bold leading-tight tracking-tight
-                  text-[#0E1B3D]
-                  transition-colors duration-700
-                  dark:text-white
+                  text-foreground
+                  transition-colors duration-500
                   xl:text-5xl
                 "
               >
@@ -291,9 +198,8 @@ export function MarcoAutenticacion({
               <p
                 className="
                   mt-5 max-w-lg text-base leading-7
-                  text-[#4B5563]
-                  transition-colors duration-700
-                  dark:text-[#B9CBE5]
+                  text-muted-foreground
+                  transition-colors duration-500
                 "
               >
                 Diseñado para comercios, servicios, distribuidoras y
@@ -330,20 +236,17 @@ export function MarcoAutenticacion({
                 className="
                   group relative flex items-center gap-4
                   overflow-hidden rounded-2xl
-                  border border-[#0E1B3D]/10
-                  bg-white/58 px-4 py-3.5
-                  shadow-[0_10px_35px_rgba(14,27,61,0.07)]
+                  border border-border
+                  bg-card/64 px-4 py-3.5
+                  shadow-[0_10px_35px_var(--shadow-color)]
                   backdrop-blur-xl
                   transition-[background-color,border-color,box-shadow]
                   duration-500
-                  hover:border-[#1677FF]/35
-                  hover:bg-white/82
-                  hover:shadow-[0_16px_45px_rgba(22,119,255,0.12)]
-                  dark:border-[#73B9FF]/12
-                  dark:bg-[#121A2E]/54
-                  dark:shadow-[0_14px_40px_rgba(0,0,0,0.18)]
-                  dark:hover:border-[#73B9FF]/32
-                  dark:hover:bg-[#162440]/74
+                  hover:border-primary/40
+                  hover:bg-card/90
+                  hover:shadow-[0_16px_45px_rgba(37,99,235,0.12)]
+                  dark:bg-card/70
+                  dark:hover:bg-card-elevated/88
                 "
               >
                 <div
@@ -351,7 +254,7 @@ export function MarcoAutenticacion({
                   className="
                     absolute inset-y-0 left-0 w-1
                     origin-bottom scale-y-0
-                    bg-gradient-to-b from-[#1677FF] to-[#73B9FF]
+                    bg-gradient-to-b from-brand-primary to-brand-light
                     transition-transform duration-300
                     group-hover:scale-y-100
                   "
@@ -361,31 +264,29 @@ export function MarcoAutenticacion({
                   className="
                     flex size-10 shrink-0 items-center justify-center
                     rounded-xl
-                    border border-[#1677FF]/15
-                    bg-[#1677FF]/10
+                    border border-primary/20
+                    bg-primary/10
                     transition-[background-color,border-color,transform]
                     duration-300
                     group-hover:-rotate-3
                     group-hover:scale-105
-                    dark:border-[#73B9FF]/20
-                    dark:bg-[#1677FF]/18
+                    dark:bg-primary/14
                   "
                 >
-                  <Icono className="size-5 text-[#1677FF] dark:text-[#73B9FF]" />
+                  <Icono className="size-5 text-primary" />
                 </div>
 
                 <span
                   className="
                     flex-1 text-sm leading-6
-                    text-[#1F2937]
-                    transition-colors duration-700
-                    dark:text-white/88
+                    text-foreground
+                    transition-colors duration-500
                   "
                 >
                   {texto}
                 </span>
 
-                <CheckCircle2 className="size-5 text-[#1677FF] dark:text-[#73B9FF]" />
+                <CheckCircle2 className="size-5 text-primary" />
               </motion.article>
             ))}
           </motion.div>
@@ -393,11 +294,9 @@ export function MarcoAutenticacion({
           <div
             className="
               relative z-10 flex items-center justify-between
-              border-t border-[#0E1B3D]/10 pt-6
-              text-[#4B5563]
-              transition-[border-color,color] duration-700
-              dark:border-white/10
-              dark:text-white/55
+              border-t border-border pt-6
+              text-muted-foreground
+              transition-[border-color,color] duration-500
             "
           >
             <p className="text-xs">© 2026 PinolPoint</p>
@@ -466,46 +365,12 @@ export function MarcoAutenticacion({
             className="relative z-20 w-full max-w-md"
           >
             {/* Identidad móvil */}
-            <div className="mb-8 lg:hidden">
-              <div className="inline-flex items-center gap-3">
-                <motion.div
-                  animate={
-                    reducirMovimiento
-                      ? undefined
-                      : {
-                          y: [0, -4, 0],
-                      }
-                  }
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="
-                    flex size-11 items-center justify-center
-                    rounded-2xl bg-[#1677FF] text-white
-                    shadow-[0_10px_30px_rgba(22,119,255,0.28)]
-                  "
-                >
-                  <Store className="size-5" />
-                </motion.div>
-
-                <div>
-                  <p className="font-bold tracking-tight">
-                    <span className="text-[#0E1B3D] dark:text-white">
-                      Pinol
-                    </span>
-
-                    <span className="text-[#1677FF] dark:text-[#73B9FF]">
-                      Point
-                    </span>
-                  </p>
-
-                  <p className="text-xs text-[#4B5563] dark:text-[#B9CBE5]">
-                    Tu punto de venta inteligente
-                  </p>
-                </div>
-              </div>
+            {/* Identidad adaptable para móvil y tablet */}
+            <div className="mb-8 lg:hidden flex flex-col items-center text-center">
+              <MarcaPinolPoint
+                modo="movil"
+                prioridad
+              />
             </div>
 
             {/* Tarjeta/modal en modo claro y oscuro */}
@@ -524,17 +389,15 @@ export function MarcoAutenticacion({
               }}
               className="
                 group relative overflow-hidden rounded-[2rem]
-                border border-[#1677FF]/18
-                bg-white/82 p-6
-                shadow-[0_28px_80px_rgba(14,27,61,0.16)]
+                border border-border
+                bg-card/88 p-6
+                shadow-[0_28px_80px_var(--shadow-color-strong)]
                 backdrop-blur-[30px]
                 transition-[background-color,border-color,box-shadow]
-                duration-700
+                duration-500
                 sm:p-8
 
-                dark:border-[#73B9FF]/18
-                dark:bg-[#101A31]/88
-                dark:shadow-[0_32px_100px_rgba(0,0,0,0.52),0_0_60px_rgba(22,119,255,0.10)]
+                dark:shadow-[0_32px_100px_rgba(0,0,0,0.48),0_0_60px_rgba(96,165,250,0.08)]
               "
             >
               {/* Fondo interior claro */}
@@ -542,7 +405,7 @@ export function MarcoAutenticacion({
                 aria-hidden="true"
                 className="
                   pointer-events-none absolute inset-0
-                  bg-[linear-gradient(145deg,rgba(255,255,255,0.38),rgba(230,234,241,0.12))]
+                  bg-[linear-gradient(145deg,rgba(255,255,255,0.40),rgba(219,234,254,0.10))]
                   opacity-100 transition-opacity duration-700
                   dark:opacity-0
                 "
@@ -553,7 +416,7 @@ export function MarcoAutenticacion({
                 aria-hidden="true"
                 className="
                   pointer-events-none absolute inset-0
-                  bg-[linear-gradient(145deg,rgba(18,26,46,0.56),rgba(14,27,61,0.18))]
+                  bg-[linear-gradient(145deg,rgba(22,33,58,0.62),rgba(8,14,40,0.20))]
                   opacity-0 transition-opacity duration-700
                   dark:opacity-100
                 "
@@ -565,8 +428,8 @@ export function MarcoAutenticacion({
                 className="
                   absolute inset-x-10 top-0 h-px
                   bg-gradient-to-r
-                  from-transparent via-[#1677FF]/80 to-transparent
-                  dark:via-[#73B9FF]/75
+                  from-transparent via-brand-primary/80 to-transparent
+                  dark:via-primary/75
                 "
               />
 
@@ -589,8 +452,8 @@ export function MarcoAutenticacion({
                 className="
                   pointer-events-none absolute -right-20 -top-20
                   size-52 rounded-full
-                  bg-[#1677FF]/11 blur-3xl
-                  dark:bg-[#73B9FF]/11
+                  bg-brand-primary/11 blur-3xl
+                  dark:bg-primary/11
                 "
               />
 
@@ -616,7 +479,7 @@ export function MarcoAutenticacion({
                   bg-gradient-to-r
                   from-transparent via-white/28 to-transparent
                   blur-md
-                  dark:via-[#73B9FF]/10
+                  dark:via-primary/10
                 "
               />
 
@@ -627,52 +490,20 @@ export function MarcoAutenticacion({
                   animate="visible"
                   className="mb-7"
                 >
-                  {/* Marca con colores alternados */}
+                  {/* Isotipo dentro de la tarjeta en escritorio */}
                   <motion.div
                     variants={elementoEntrada}
-                    className="mb-5"
+                    className="mb-5 hidden lg:block flex flex-col items-center text-center"
                   >
-                    <p className="text-lg font-bold tracking-tight">
-                      <span
-                        className="
-                          text-[#0E1B3D]
-                          transition-colors duration-700
-                          dark:text-white
-                        "
-                      >
-                        Pinol
-                      </span>
-
-                      <span
-                        className="
-                          text-[#1677FF]
-                          transition-colors duration-700
-                          dark:text-[#73B9FF]
-                        "
-                      >
-                        Point
-                      </span>
-                    </p>
-
-                    <p
-                      className="
-                        mt-0.5 text-xs font-medium
-                        text-[#4B5563]
-                        transition-colors duration-700
-                        dark:text-[#AFC8E8]
-                      "
-                    >
-                      Tu punto de venta inteligente
-                    </p>
+                    <MarcaPinolPoint modo="tarjeta" />
                   </motion.div>
 
                   <motion.h1
                     variants={elementoEntrada}
                     className="
                       text-3xl font-bold tracking-tight
-                      text-[#0E1B3D]
-                      transition-colors duration-700
-                      dark:text-white
+                      text-foreground
+                      transition-colors duration-500
                     "
                   >
                     {titulo}
@@ -682,9 +513,8 @@ export function MarcoAutenticacion({
                     variants={elementoEntrada}
                     className="
                       mt-2 text-sm leading-6
-                      text-[#4B5563]
-                      transition-colors duration-700
-                      dark:text-[#B3C6DF]
+                      text-muted-foreground
+                      transition-colors duration-500
                     "
                   >
                     {descripcion}
@@ -733,9 +563,8 @@ export function MarcoAutenticacion({
               className="
                 mt-6 flex items-center justify-center gap-2
                 text-center text-xs
-                text-[#4B5563]
-                transition-colors duration-700
-                dark:text-[#B3C6DF]/80
+                text-muted-foreground
+                transition-colors duration-500
               "
             >
               <ShieldCheck className="size-3.5" />

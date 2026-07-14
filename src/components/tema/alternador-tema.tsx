@@ -17,10 +17,7 @@ export function AlternadorTema() {
     return (
       <div
         aria-hidden="true"
-        className="
-          size-11 rounded-2xl border border-border/80
-          bg-card/80 shadow-sm backdrop-blur-xl
-        "
+        className="size-11 rounded-2xl border border-border bg-card/80 shadow-sm backdrop-blur-xl"
       />
     );
   }
@@ -30,62 +27,25 @@ export function AlternadorTema() {
   return (
     <motion.button
       type="button"
-      aria-label={
-        esOscuro
-          ? "Activar modo claro"
-          : "Activar modo oscuro"
-      }
+      aria-label={esOscuro ? "Activar modo claro" : "Activar modo oscuro"}
       aria-pressed={esOscuro}
-      title={
-        esOscuro
-          ? "Cambiar a modo claro"
-          : "Cambiar a modo oscuro"
-      }
+      title={esOscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       onClick={() => setTheme(esOscuro ? "light" : "dark")}
       whileHover={{
         scale: 1.06,
         rotate: esOscuro ? -3 : 3,
       }}
-      whileTap={{
-        scale: 0.92,
-      }}
+      whileTap={{ scale: 0.92 }}
       transition={{
         type: "spring",
         stiffness: 420,
         damping: 24,
       }}
-      className="
-        group relative flex size-11 items-center justify-center
-        overflow-hidden rounded-2xl
-        border border-[#0E1B3D]/10
-        bg-white/75 text-[#0E1B3D]
-        shadow-[0_8px_30px_rgba(14,27,61,0.10)]
-        backdrop-blur-xl
-        transition-[background-color,border-color,color,box-shadow]
-        duration-500
-        hover:border-[#1677FF]/35
-        hover:shadow-[0_12px_35px_rgba(22,119,255,0.18)]
-        focus-visible:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-[#1677FF]
-        focus-visible:ring-offset-2
-        dark:border-white/10
-        dark:bg-[#121A2E]/80
-        dark:text-white
-        dark:shadow-[0_10px_35px_rgba(0,0,0,0.30)]
-        dark:hover:border-[#73B9FF]/30
-        dark:hover:shadow-[0_12px_38px_rgba(22,119,255,0.20)]
-        dark:focus-visible:ring-[#73B9FF]
-        dark:focus-visible:ring-offset-[#0E1B3D]
-      "
+      className="group relative flex size-11 items-center justify-center overflow-hidden rounded-2xl border border-border bg-card/82 text-foreground shadow-[0_8px_30px_var(--shadow-color)] backdrop-blur-xl transition-[background-color,border-color,color,box-shadow] duration-300 hover:border-primary/45 hover:bg-card-elevated hover:shadow-[0_12px_35px_rgba(37,99,235,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:hover:shadow-[0_12px_38px_rgba(96,165,250,0.14)]"
     >
       <div
         aria-hidden="true"
-        className="
-          absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(22,119,255,0.15),transparent_68%)]
-          opacity-0 transition-opacity duration-300
-          group-hover:opacity-100
-        "
+        className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.14),transparent_68%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.12),transparent_68%)]"
       />
 
       <AnimatePresence mode="wait" initial={false}>
@@ -113,9 +73,9 @@ export function AlternadorTema() {
           className="relative z-10"
         >
           {esOscuro ? (
-            <Sun className="size-5 text-[#73B9FF]" />
+            <Sun className="size-5 text-primary" />
           ) : (
-            <Moon className="size-5 text-[#1677FF]" />
+            <Moon className="size-5 text-brand-primary" />
           )}
         </motion.span>
       </AnimatePresence>

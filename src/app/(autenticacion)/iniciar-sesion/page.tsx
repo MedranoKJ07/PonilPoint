@@ -112,11 +112,7 @@ export default function PaginaInicioSesion() {
         <div className="space-y-2">
           <Label
             htmlFor="correo"
-            className="
-              text-brand-navy
-              transition-colors duration-500
-              dark:text-white
-            "
+            className="text-foreground transition-colors duration-300"
           >
             Correo electrónico
           </Label>
@@ -129,8 +125,6 @@ export default function PaginaInicioSesion() {
                 text-muted-foreground
                 transition-colors duration-300
                 group-focus-within:text-primary
-                dark:text-[#B3C6DF]
-                dark:group-focus-within:text-accent
               "
             >
               <AnimateIcon
@@ -154,24 +148,8 @@ export default function PaginaInicioSesion() {
               disabled={procesando}
               className="
                 h-12 rounded-xl
-                border-border/90
-                bg-background/70
-                pl-10
-                text-foreground
-                shadow-sm
+                bg-input/88 pl-10
                 backdrop-blur-sm
-                transition-[background-color,border-color,box-shadow]
-                duration-300
-                placeholder:text-muted-foreground
-                focus-visible:border-primary
-                focus-visible:ring-primary/20
-
-                dark:border-white/10
-                dark:bg-brand-navy/35
-                dark:text-white
-                dark:placeholder:text-[#B3C6DF]/60
-                dark:focus-visible:border-accent
-                dark:focus-visible:ring-accent/20
               "
             />
           </div>
@@ -196,10 +174,8 @@ export default function PaginaInicioSesion() {
               className="
                 text-xs font-semibold text-primary
                 transition-colors
-                hover:text-[#0F5EDB]
+                hover:text-primary-hover
                 hover:underline
-                dark:text-accent
-                dark:hover:text-white
               "
             >
               ¿Olvidaste tu contraseña?
@@ -214,8 +190,6 @@ export default function PaginaInicioSesion() {
                 text-muted-foreground
                 transition-colors duration-300
                 group-focus-within:text-primary
-                dark:text-[#B3C6DF]
-                dark:group-focus-within:text-accent
               "
             >
               <AnimateIcon
@@ -243,24 +217,8 @@ export default function PaginaInicioSesion() {
               disabled={procesando}
               className="
                 h-12 rounded-xl
-                border-border/90
-                bg-background/70
-                px-10
-                text-foreground
-                shadow-sm
+                bg-input/88 px-10
                 backdrop-blur-sm
-                transition-[background-color,border-color,box-shadow]
-                duration-300
-                placeholder:text-muted-foreground
-                focus-visible:border-primary
-                focus-visible:ring-primary/20
-
-                dark:border-white/10
-                dark:bg-brand-navy/35
-                dark:text-white
-                dark:placeholder:text-[#B3C6DF]/60
-                dark:focus-visible:border-accent
-                dark:focus-visible:ring-accent/20
               "
             />
 
@@ -288,10 +246,6 @@ export default function PaginaInicioSesion() {
                 focus-visible:text-primary
                 disabled:pointer-events-none
                 disabled:opacity-50
-
-                dark:text-[#B3C6DF]
-                dark:hover:text-accent
-                dark:focus-visible:text-accent
               "
             >
               <AnimateIcon
@@ -320,9 +274,6 @@ export default function PaginaInicioSesion() {
               text-sm text-destructive
               shadow-sm
               backdrop-blur-sm
-              dark:border-red-400/20
-              dark:bg-red-500/10
-              dark:text-red-300
             "
           >
             <AnimateIcon
@@ -349,19 +300,15 @@ export default function PaginaInicioSesion() {
             rounded-xl
             bg-primary px-4
             font-semibold text-primary-foreground
-            shadow-[0_12px_30px_rgba(22,119,255,0.25)]
+            shadow-[0_12px_30px_rgba(37,99,235,0.24)]
             transition-[background-color,box-shadow]
             duration-300
-            hover:bg-[#0F5EDB]
-            hover:shadow-[0_16px_38px_rgba(22,119,255,0.34)]
+            hover:bg-primary-hover
+            hover:shadow-[0_16px_38px_rgba(37,99,235,0.30)]
             disabled:pointer-events-none
             disabled:opacity-60
-
-            dark:bg-primary
-            dark:text-white
-            dark:hover:bg-accent
-            dark:hover:text-brand-navy
-            dark:hover:shadow-[0_16px_40px_rgba(115,185,255,0.22)]
+            dark:shadow-[0_12px_30px_rgba(96,165,250,0.16)]
+            dark:hover:shadow-[0_16px_40px_rgba(96,165,250,0.20)]
           "
         >
           {procesando ? (
@@ -398,8 +345,7 @@ export default function PaginaInicioSesion() {
         className="
           mt-7 text-center text-sm
           text-muted-foreground
-          transition-colors duration-500
-          dark:text-[#B3C6DF]
+          transition-colors duration-300
         "
       >
         ¿Aún no tienes una cuenta?{" "}
@@ -408,10 +354,8 @@ export default function PaginaInicioSesion() {
           className="
             font-semibold text-primary
             transition-colors
-            hover:text-[#0F5EDB]
+            hover:text-primary-hover
             hover:underline
-            dark:text-accent
-            dark:hover:text-white
           "
         >
           Crear cuenta
